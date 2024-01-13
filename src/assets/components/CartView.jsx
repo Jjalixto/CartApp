@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { calculateTotal } from "../../service/productoService";
-
+import React from 'react';
 
 export const CartView = ( {handlerDelete,items} ) => {
 
     const [total, setTotal] = useState(0);
-
+    
     useEffect(()=> {
         setTotal(calculateTotal(items));
         sessionStorage.setItem('cart', JSON.stringify(items));
@@ -45,8 +45,8 @@ export const CartView = ( {handlerDelete,items} ) => {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colSpan="3" className="text-end fw-bold">total</td>
-                        <td colSpan="2" className="text-start fw-bold">{total}</td>
+                        <td colSpan={3} className="text-end fw-bold">total</td>
+                        <td colSpan={2} className="text-start fw-bold">{total}</td>
                     </tr>
                 </tfoot>
             </table>
