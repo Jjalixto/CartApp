@@ -1,60 +1,48 @@
-import { useReducer, useEffect } from "react"
+import { Navigate, Route, Routes } from "react-router-dom";
 import { CartView } from "./components/CartView"
 import { CatalogView } from "./components/CatalogView"
-import { AddProductCart, DeleteProductCart, UpdateQuantityProductCart } from "./reducer/itemsActions";
-import { itemsReducer } from "./reducer/itemsReducer";
-
-const inititalCartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+import { useItemsCart } from "./hooks/useItemsCart"
+import { Navbar } from "./components/NavBar";
 
 export const CartApp = () => {
 
-    const [cartItems, dispatch] = useReducer(itemsReducer, inititalCartItems);
+    const { cartItems, handlerAddProductCart, handlerDeleteProductCart} = useItemsCart();
 
-    useEffect(() => {
-        sessionStorage.setItem('cart', JSON.stringify(cartItems));
-    }, [cartItems]);
-
-    const handlerAddProductCart = (product) => {
-
-        const hasItem = cartItems.find((i) => i.product.id === product.id);
-        if (hasItem) {
-            dispatch(
-                {
-                    type: UpdateQuantityProductCart,
-                    payload: product,
-                }
-            );
-        } else {
-            dispatch({
-                type: AddProductCart,
-                payload: product,
-            });
-        }
-    }
-
-    const handlerDeleteProductCart = (id) => {
-        dispatch(
-            {
-                type: DeleteProductCart,
-                payload: id,
-            }
-        )
-    }
     return (
         <>
-
+       
+        {/* lo que no esta dentro de las route se mantiene para todas las rutas */}
+            <Navbar />
             <div className="container my-4">
 
                 <h3>Cart App</h3>
-                <CatalogView handler={handlerAddProductCart} />
 
-                {cartItems?.length <= 0 ||
-                    (
-                        <div className="my-4 w-50">
-                            <CartView items={cartItems} handlerDelete={handlerDeleteProductCart} />
-                        </div>
-                    )
-                }
+                <Routes>
+                    <Route 
+                        path="catalog" 
+                        element={<CatalogView handler={handlerAddProductCart} />} 
+                    /> 
+
+                    <Route 
+                        path="cart" 
+                        element={(cartItems?.length <= 0 ?
+                            <div className="alert alert-warning">No hay productos en el carrito de compras</div> :
+                            (
+                                <div className="my-4 w-50">
+                                    <CartView items={cartItems} handlerDelete={handlerDeleteProductCart} />
+                                </div>
+                            )
+                        )} /> 
+
+                    <Route
+                        path="/"
+                        element={<Navigate to={'/catalog'} /> }
+                    />
+
+                </Routes>
+                
+
+               
 
             </div>
         </>
