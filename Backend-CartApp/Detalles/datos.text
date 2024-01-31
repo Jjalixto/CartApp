@@ -1,0 +1,7 @@
+los repositorys son para hacer consultas a la base de datos
+
+public interface ProductRepository extends CrudRepository<Product, Long>{}
+en este caso se pasa por parametros el nombre de la entidad product y su id que es del tipo Long
+
+el servicio trabaja con el repositorio
+el repositorio soolo accede a una fuente de datos  consultas insertar guardar seleccionar y actualizar a una tabla o

@@ -7,7 +7,7 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ca
     return (
         <Routes>
         <Route 
-            path="catalog" 
+            path="/catalog" 
             element={<CatalogView handler={handlerAddProductCart} />} 
         /> 
 
@@ -24,7 +24,7 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ca
 
         <Route
             path="/"
-            element={<Navigate to={'/catalog'} /> }
+            element={<Navigate to={'/'} /> }
         />
 
     </Routes>
